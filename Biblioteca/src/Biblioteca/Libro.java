@@ -2,7 +2,7 @@ package Biblioteca;
 
 import java.io.Serializable;
 
-import Arbol.Arbol;
+
 
 public class Libro implements Serializable{
 	private String autor;
