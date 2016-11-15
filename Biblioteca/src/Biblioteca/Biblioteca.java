@@ -14,37 +14,22 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SpringLayout.Constraints;
 
-import Arbol.Arbol;
-import Arbol.JFrameArbol;
-
-
-
-
-
-
-
 
 
 
 public class Biblioteca {
 	final static String nomfich = "Fich06.obj";
-	static ArrayList<Libro> estanteria = new ArrayList<Libro>();
+	static ArrayList <Libro> estanteria = new ArrayList<Libro>();
 
-	static Boolean añadirLibro(Object LibroNuevo){
+	static Boolean añadirLibro(Libro LibroNuevo){
 		Boolean dev = false;
-		//DUDA
-		for(Libro a : estanteria){
-			if (LibroNuevo.equals(a.getClass())){
-				dev=true;
-			}
-		}
-		if(dev == true){
-		estanteria.add((Libro) LibroNuevo);
-		}
-		
-		
+		if (estanteria.contains(LibroNuevo)){
+			
+		}else{
+			estanteria.add(LibroNuevo);
+			dev = true;	
+		}	
 		return dev;
-		
 	}
 	static int archivarLibros(){
 		int num= 0;
@@ -66,7 +51,6 @@ public class Biblioteca {
 			e.printStackTrace();
 			
 		}
-		
 		return num;
 	}
 	static int recuperarLibros(){
@@ -82,34 +66,54 @@ public class Biblioteca {
 					estanteria.add(a);
 					a = (Libro)fie.readObject();
 				}
-				fie.close();
-				
+				fie.close();		
 			}
-			
-		}catch (Exception e){
+		}catch (Exception e){	
 			
 		}
-		return num;
-		
+		return num;	
 	}
 	static Boolean borraLibro(String iSBN){
 		Boolean dev=false;
 		int pos;
 		for(Libro a: estanteria){
 			if (a.getiSBN().equals(iSBN)){
-			pos=estanteria.indexOf(a);
+			estanteria.remove(a);
 			dev=true;
 			}
 		}
-		Libro.remove(estanteria.get(pos));
-	
 		return dev;
 	}
-	static void buscarLibro(){
+	static Libro buscarLibroISBN(String iSBN){
+		Libro dev = null;
+		for(Libro a: estanteria){
+			if(a.getiSBN().equals(iSBN)){
+				dev = a;
+				break;
+			}
+		}
+		return dev;
 		
 	}
-	static void modificarLibros(){
+	static ArrayList <Libro> buscarLibroAutor(String autor){
+		ArrayList<Libro> autor1 = new ArrayList<Libro>();
+		autor1=null;
+		for(Libro a: estanteria){
+			if(a.getAutor().equals(autor)){
+				autor1.add(a);
+			}
+		}
+		return autor1;
 		
+	}
+	static void modificarLibros(Libro LibroModifiar){
+		for(Libro a: estanteria){
+			if(a.getiSBN().equals(LibroModifiar.getiSBN())){
+				estanteria.remove(a);
+				estanteria.add(LibroModifiar);	
+			}
+		}
+	
 	}
 	static void mostrarLibros(){
 		

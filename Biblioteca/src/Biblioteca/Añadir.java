@@ -107,7 +107,6 @@ public class Añadir extends JDialog {
 							JOptionPane.showMessageDialog(null, "Error, El arbol ya estaba añadido");
 						}
 
-						
 					}
 				});
 				btAñadir.setActionCommand("OK");

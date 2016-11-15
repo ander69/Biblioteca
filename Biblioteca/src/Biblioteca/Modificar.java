@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Modificar extends JDialog {
 
@@ -77,6 +79,15 @@ public class Modificar extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton btModificar = new JButton("Modificar");
+				btModificar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						String ISBN = tfISBN.getText().toString();
+						String autor = tfAutor.getText().toString();
+						String titulo = tfTitulo.getText().toString();
+						Libro lb1 = new Libro(ISBN,autor,titulo);
+						Biblioteca.modificarLibros(lb1);
+					}
+				});
 				btModificar.setActionCommand("OK");
 				buttonPane.add(btModificar);
 				getRootPane().setDefaultButton(btModificar);
