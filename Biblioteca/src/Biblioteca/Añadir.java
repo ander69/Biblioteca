@@ -82,7 +82,7 @@ public class Añadir extends JDialog {
 						String ISBN = tfISBN.getText().toString();
 						String autor = tfAutor.getText().toString();
 						String titulo = tfTitulo.getText().toString();
-						Libro lb1 = new Libro(ISBN,autor,titulo);
+						Libro lb1 = new Libro(autor,titulo,ISBN);
 						esta=biblioteca.añadirLibro(lb1);
 						tfISBN.setText("");
 						tfAutor.setText("");
@@ -93,7 +93,10 @@ public class Añadir extends JDialog {
 						}else{
 							JOptionPane.showMessageDialog(null, "Error, El arbol ya estaba añadido");
 						}
+						Biblioteca.archivarLibros();
+						JBiblioteca.cargarTabla();
 					}
+					
 				});
 				btAñadir.setActionCommand("OK");
 				buttonPane.add(btAñadir);

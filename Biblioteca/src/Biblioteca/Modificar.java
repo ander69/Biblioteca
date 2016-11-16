@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -15,19 +16,20 @@ import java.awt.event.ActionEvent;
 public class Modificar extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField tfISBN;
-	private JTextField tfAutor;
-	private JTextField tfTitulo;
+	public JTextField tfISBN;
+	public JTextField tfAutor;
+	public JTextField tfTitulo;
 
 	/**
 	 * Create the dialog.
 	 */
-	public Modificar(final Biblioteca biblioteca) {
+	public Modificar() {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		setVisible(true);
 		
 		JLabel lblLibro = new JLabel("LIBRO");
 		lblLibro.setBounds(172, 11, 46, 14);
@@ -72,7 +74,7 @@ public class Modificar extends JDialog {
 						String autor = tfAutor.getText().toString();
 						String titulo = tfTitulo.getText().toString();
 						Libro lb1 = new Libro(ISBN,autor,titulo);
-						biblioteca.modificarLibros(lb1);
+						Biblioteca.modificarLibros(lb1);
 					}
 				});
 				btModificar.setActionCommand("OK");

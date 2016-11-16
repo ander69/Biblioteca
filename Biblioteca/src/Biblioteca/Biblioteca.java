@@ -19,7 +19,7 @@ import javax.swing.SpringLayout.Constraints;
 
 public class Biblioteca {
 	final static String nomfich = "Fich06.obj";
-	private ArrayList <Libro> estanteria = new ArrayList<Libro>();
+	private static ArrayList <Libro> estanteria = new ArrayList<Libro>();
 
 	public Boolean añadirLibro(Libro LibroNuevo){
 		Boolean dev = false;
@@ -31,7 +31,7 @@ public class Biblioteca {
 		}	
 		return dev;
 	}
-	public int archivarLibros(){
+	static int archivarLibros(){
 		int num= 0;
 		FileOutputStream f = null;
 		try{
@@ -53,7 +53,7 @@ public class Biblioteca {
 		}
 		return num;
 	}
-	public int recuperarLibros(){
+	static int recuperarLibros(){
 		int num=0;
 		File fich = new File (nomfich);
 		try{
@@ -73,18 +73,18 @@ public class Biblioteca {
 		}
 		return num;	
 	}
-	public Boolean borraLibro(String iSBN){
+	static Boolean borraLibro(String iSBN){
 		Boolean dev=false;
-		int pos;
 		for(Libro a: estanteria){
 			if (a.getiSBN().equals(iSBN)){
 			estanteria.remove(a);
 			dev=true;
+			break;
 			}
 		}
 		return dev;
 	}
-	public Libro buscarLibroISBN(String iSBN){
+	static Libro buscarLibroISBN(String iSBN){
 		Libro dev = null;
 		for(Libro a: estanteria){
 			if(a.getiSBN().equals(iSBN)){
@@ -94,9 +94,8 @@ public class Biblioteca {
 		}
 		return dev;
 	}
-	public ArrayList <Libro> buscarLibroAutor(String autor){
+	static ArrayList <Libro> buscarLibroAutor(String autor){
 		ArrayList<Libro> autor1 = new ArrayList<Libro>();
-		autor1=null;
 		for(Libro a: estanteria){
 			if(a.getAutor().equals(autor)){
 				autor1.add(a);
@@ -104,7 +103,7 @@ public class Biblioteca {
 		}
 		return autor1;	
 	}
-	public void modificarLibros(Libro LibroModifiar){
+	static void modificarLibros(Libro LibroModifiar){
 		for(Libro a: estanteria){
 			if(a.getiSBN().equals(LibroModifiar.getiSBN())){
 				estanteria.remove(a);

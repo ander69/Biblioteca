@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,10 +22,10 @@ import java.awt.event.ActionEvent;
 public class JBiblioteca extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTable table;
-	private Biblioteca biblioteca;
+	private JTextField tfISBN;
+	private JTextField tfAutor;
+	private static JTable table;
+	private static Biblioteca biblioteca;
 	private JButton btnModificar;
 	private JButton btnEliminar;
 	private JButton btnNuevo;
@@ -61,15 +62,15 @@ public class JBiblioteca extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(64, 34, 116, 22);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		tfISBN = new JTextField();
+		tfISBN.setBounds(64, 34, 116, 22);
+		contentPane.add(tfISBN);
+		tfISBN.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(462, 34, 116, 22);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		tfAutor = new JTextField();
+		tfAutor.setBounds(462, 34, 116, 22);
+		contentPane.add(tfAutor);
+		tfAutor.setColumns(10);
 		
 		JLabel lblIsbn = new JLabel("ISBN:");
 		lblIsbn.setBounds(12, 37, 56, 16);
@@ -80,6 +81,42 @@ public class JBiblioteca extends JFrame {
 		contentPane.add(lblAutor);
 		
 		btnConsultar = new JButton("CONSULTAR");
+		btnConsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiar();
+				String isbn = tfISBN.getText().toString();
+				String autor = tfAutor.getText().toString();
+				if(isbn.isEmpty() && autor.isEmpty()){
+					cargarTabla();
+					
+				}else{
+					if(autor.isEmpty()){
+						System.out.println("aqui");
+						Libro a=Biblioteca.buscarLibroISBN(isbn);
+						DefaultTableModel model = (DefaultTableModel)table.getModel();
+						Object[] fila = new Object[table.getModel().getColumnCount()];
+						fila[0]= a.getAutor();
+						fila[1]= a.getiSBN();
+						fila[2]= a.getTitulo();
+						model.addRow(fila);
+					}else if(isbn.isEmpty()){
+						
+						ArrayList<Libro> autor1 = new ArrayList<Libro>();
+						DefaultTableModel model = (DefaultTableModel)table.getModel();
+						autor1=Biblioteca.buscarLibroAutor(autor);
+						for ( Libro a : autor1 ){
+							Object[] fila = new Object[table.getModel().getColumnCount()];
+							fila[0]= a.getAutor();
+							fila[1]= a.getiSBN();
+							fila[2]= a.getTitulo();
+							model.addRow(fila);
+						}
+					}
+					
+				}
+				
+			}
+		});
 		btnConsultar.setBounds(243, 86, 116, 25);
 		contentPane.add(btnConsultar);
 		
@@ -109,7 +146,11 @@ public class JBiblioteca extends JFrame {
 		btnEliminar = new JButton("ELIMINAR");
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				DefaultTableModel model = (DefaultTableModel)table.getModel();
+				String isbn = (String)model.getValueAt(table.getSelectedRow(), 1);
+				model.removeRow(table.getSelectedRow());
+				Biblioteca.borraLibro(isbn);
+				Biblioteca.archivarLibros();
 			}
 		});
 		btnEliminar.setBounds(262, 304, 97, 25);
@@ -118,7 +159,17 @@ public class JBiblioteca extends JFrame {
 		btnModificar = new JButton("MODIFICAR");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new Modificar(biblioteca).setVisible(true);
+				DefaultTableModel model = (DefaultTableModel)table.getModel();
+				
+				if(table.getSelectedRow() == -1){
+					JOptionPane.showMessageDialog(null, "selecciona una fila");
+				}else{
+					String isbn = (String)model.getValueAt(table.getSelectedRow(), 1);
+					String autor = (String)model.getValueAt(table.getSelectedRow(), 0);
+					String titulo = (String)model.getValueAt(table.getSelectedRow(), 2);
+					new Modificar ().tfISBN.setText(isbn);
+					
+				}
 				
 			}
 		});
@@ -129,7 +180,8 @@ public class JBiblioteca extends JFrame {
 		cargarTabla();
 	}
 	
-	private void cargarTabla() {
+	public static void cargarTabla() {
+		limpiar();
 		DefaultTableModel model = (DefaultTableModel)table.getModel();
 		for ( Libro a : biblioteca.getEstanteria() ){
 			Object[] fila = new Object[table.getModel().getColumnCount()];
@@ -138,6 +190,16 @@ public class JBiblioteca extends JFrame {
 			fila[2]= a.getTitulo();
 			model.addRow(fila);
 		}
+		
+	}
+	public static void limpiar(){
+		int fila;
+		DefaultTableModel model = (DefaultTableModel)table.getModel();
+		fila=model.getRowCount();
+		for(int i = 0;i<fila;i++){
+			model.removeRow(0);
+		}
+		
 		
 	}
 }
