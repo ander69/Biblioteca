@@ -20,22 +20,9 @@ public class Modificar extends JDialog {
 	private JTextField tfTitulo;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			Modificar dialog = new Modificar();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
-	public Modificar() {
+	public Modificar(final Biblioteca biblioteca) {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -85,7 +72,7 @@ public class Modificar extends JDialog {
 						String autor = tfAutor.getText().toString();
 						String titulo = tfTitulo.getText().toString();
 						Libro lb1 = new Libro(ISBN,autor,titulo);
-						Biblioteca.modificarLibros(lb1);
+						biblioteca.modificarLibros(lb1);
 					}
 				});
 				btModificar.setActionCommand("OK");

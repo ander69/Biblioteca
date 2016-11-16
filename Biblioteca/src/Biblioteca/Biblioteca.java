@@ -19,9 +19,9 @@ import javax.swing.SpringLayout.Constraints;
 
 public class Biblioteca {
 	final static String nomfich = "Fich06.obj";
-	static ArrayList <Libro> estanteria = new ArrayList<Libro>();
+	private ArrayList <Libro> estanteria = new ArrayList<Libro>();
 
-	static Boolean añadirLibro(Libro LibroNuevo){
+	public Boolean añadirLibro(Libro LibroNuevo){
 		Boolean dev = false;
 		if (estanteria.contains(LibroNuevo)){
 			
@@ -31,7 +31,7 @@ public class Biblioteca {
 		}	
 		return dev;
 	}
-	static int archivarLibros(){
+	public int archivarLibros(){
 		int num= 0;
 		FileOutputStream f = null;
 		try{
@@ -53,7 +53,7 @@ public class Biblioteca {
 		}
 		return num;
 	}
-	static int recuperarLibros(){
+	public int recuperarLibros(){
 		int num=0;
 		File fich = new File (nomfich);
 		try{
@@ -73,7 +73,7 @@ public class Biblioteca {
 		}
 		return num;	
 	}
-	static Boolean borraLibro(String iSBN){
+	public Boolean borraLibro(String iSBN){
 		Boolean dev=false;
 		int pos;
 		for(Libro a: estanteria){
@@ -84,7 +84,7 @@ public class Biblioteca {
 		}
 		return dev;
 	}
-	static Libro buscarLibroISBN(String iSBN){
+	public Libro buscarLibroISBN(String iSBN){
 		Libro dev = null;
 		for(Libro a: estanteria){
 			if(a.getiSBN().equals(iSBN)){
@@ -93,9 +93,8 @@ public class Biblioteca {
 			}
 		}
 		return dev;
-		
 	}
-	static ArrayList <Libro> buscarLibroAutor(String autor){
+	public ArrayList <Libro> buscarLibroAutor(String autor){
 		ArrayList<Libro> autor1 = new ArrayList<Libro>();
 		autor1=null;
 		for(Libro a: estanteria){
@@ -103,20 +102,21 @@ public class Biblioteca {
 				autor1.add(a);
 			}
 		}
-		return autor1;
-		
+		return autor1;	
 	}
-	static void modificarLibros(Libro LibroModifiar){
+	public void modificarLibros(Libro LibroModifiar){
 		for(Libro a: estanteria){
 			if(a.getiSBN().equals(LibroModifiar.getiSBN())){
 				estanteria.remove(a);
 				estanteria.add(LibroModifiar);	
 			}
 		}
-	
 	}
-	static void mostrarLibros(){
+	public void mostrarLibros(){
 		
+	}
+	public ArrayList<Libro> getEstanteria() {
+		return estanteria;
 	}
 }
 

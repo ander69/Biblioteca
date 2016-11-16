@@ -1,19 +1,22 @@
 package Biblioteca;
 
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.awt.event.ActionEvent;
 
 public class JBiblioteca extends JFrame {
 
@@ -21,12 +24,19 @@ public class JBiblioteca extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTable table;
+	private Biblioteca biblioteca;
+	private JButton btnModificar;
+	private JButton btnEliminar;
+	private JButton btnNuevo;
+	private JScrollPane scrollPane;
+	private JButton btnConsultar;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		//test
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -43,6 +53,7 @@ public class JBiblioteca extends JFrame {
 	 * Create the frame.
 	 */
 	public JBiblioteca() {
+		biblioteca = new Biblioteca();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 642, 416);
 		contentPane = new JPanel();
@@ -68,11 +79,11 @@ public class JBiblioteca extends JFrame {
 		lblAutor.setBounds(394, 37, 56, 16);
 		contentPane.add(lblAutor);
 		
-		JButton btnConsultar = new JButton("CONSULTAR");
+		btnConsultar = new JButton("CONSULTAR");
 		btnConsultar.setBounds(243, 86, 116, 25);
 		contentPane.add(btnConsultar);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(12, 124, 600, 167);
 		contentPane.add(scrollPane);
 		
@@ -86,16 +97,47 @@ public class JBiblioteca extends JFrame {
 		));
 		scrollPane.setViewportView(table);
 		
-		JButton btnNuevo = new JButton("NUEVO");
+		btnNuevo = new JButton("NUEVO");
+		btnNuevo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new Añadir(biblioteca).setVisible(true);
+			}
+		});
 		btnNuevo.setBounds(64, 304, 97, 25);
 		contentPane.add(btnNuevo);
 		
-		JButton btnEliminar = new JButton("ELIMINAR");
+		btnEliminar = new JButton("ELIMINAR");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnEliminar.setBounds(262, 304, 97, 25);
 		contentPane.add(btnEliminar);
 		
-		JButton btnModificar = new JButton("MODIFICAR");
+		btnModificar = new JButton("MODIFICAR");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new Modificar(biblioteca).setVisible(true);
+				
+			}
+		});
 		btnModificar.setBounds(430, 304, 109, 25);
 		contentPane.add(btnModificar);
+		
+		biblioteca.recuperarLibros();
+		cargarTabla();
+	}
+	
+	private void cargarTabla() {
+		DefaultTableModel model = (DefaultTableModel)table.getModel();
+		for ( Libro a : biblioteca.getEstanteria() ){
+			Object[] fila = new Object[table.getModel().getColumnCount()];
+			fila[0]= a.getAutor();
+			fila[1]= a.getiSBN();
+			fila[2]= a.getTitulo();
+			model.addRow(fila);
+		}
+		
 	}
 }

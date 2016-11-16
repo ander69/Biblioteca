@@ -24,22 +24,9 @@ public class Añadir extends JDialog {
 	private JTextField tfTitulo;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			Añadir dialog = new Añadir();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
-	public Añadir() {
+	public Añadir(final Biblioteca biblioteca) {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -96,7 +83,7 @@ public class Añadir extends JDialog {
 						String autor = tfAutor.getText().toString();
 						String titulo = tfTitulo.getText().toString();
 						Libro lb1 = new Libro(ISBN,autor,titulo);
-						esta=Biblioteca.añadirLibro(lb1);
+						esta=biblioteca.añadirLibro(lb1);
 						tfISBN.setText("");
 						tfAutor.setText("");
 						tfTitulo.setText("");
@@ -106,7 +93,6 @@ public class Añadir extends JDialog {
 						}else{
 							JOptionPane.showMessageDialog(null, "Error, El arbol ya estaba añadido");
 						}
-
 					}
 				});
 				btAñadir.setActionCommand("OK");
