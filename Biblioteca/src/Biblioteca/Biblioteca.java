@@ -103,11 +103,11 @@ public class Biblioteca {
 		}
 		return autor1;	
 	}
-	static void modificarLibros(Libro LibroModifiar){
+	static void modificarLibros(Libro LibroModificar){
 		for(Libro a: estanteria){
-			if(a.getiSBN().equals(LibroModifiar.getiSBN())){
+			if(a.getiSBN().equals(LibroModificar.getiSBN())){
 				estanteria.remove(a);
-				estanteria.add(LibroModifiar);	
+				estanteria.add(LibroModificar);	
 			}
 		}
 	}

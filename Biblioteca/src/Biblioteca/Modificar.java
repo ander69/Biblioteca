@@ -73,8 +73,11 @@ public class Modificar extends JDialog {
 						String ISBN = tfISBN.getText().toString();
 						String autor = tfAutor.getText().toString();
 						String titulo = tfTitulo.getText().toString();
-						Libro lb1 = new Libro(ISBN,autor,titulo);
+						Libro lb1 = new Libro(autor,titulo,ISBN);
 						Biblioteca.modificarLibros(lb1);
+						
+						Biblioteca.archivarLibros();
+						JBiblioteca.cargarTabla();
 					}
 				});
 				btModificar.setActionCommand("OK");
